@@ -207,7 +207,7 @@ class Mapper(tk.Frame):
             for x in range(0, MAPSIZE*PIXEL_SIZE):
                 for y in range(0, MAPSIZE*PIXEL_SIZE):
                     val = self.odds_to_pixel_value(dilated[x,y])
-                    self.mappix[x,y] = self.odds_to_pixel_value(self.oddsvals[x,y])
+                    self.mappix[x,y] = self.odds_to_pixel_value(dilated[x,y])
 
 
 
