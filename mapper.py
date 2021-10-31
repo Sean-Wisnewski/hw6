@@ -80,7 +80,7 @@ class Mapper(tk.Frame):
 
     def update_image(self):
         self.mapimage = ImageTk.PhotoImage(self.themap)       
-        self.canvas.create_image(MAPSIZe*PIXEL_SIZE/2, MAPSIZE*PIXEL_SIZE/2, image = self.mapimage)
+        self.canvas.create_image(MAPSIZE*PIXEL_SIZE/2, MAPSIZE*PIXEL_SIZE/2, image = self.mapimage)
 
     def odds_to_pixel_value(self, value):
         # This seems backwards for some reason rn
@@ -101,9 +101,9 @@ class Mapper(tk.Frame):
         self.map_update()
 
     def laser_update(self,lmsg):
-        print("Before", lmsg.ranges)
+        #print("Before", lmsg.ranges)
         replace_nans(lmsg)
-        print("After", lmsg.ranges)
+        #print("After", lmsg.ranges)
         self.laser_q.append(lmsg)
 
     # here I am putting the map update in the laser callback
