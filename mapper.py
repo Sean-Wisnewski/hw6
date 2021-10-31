@@ -23,7 +23,7 @@ from helpers import *
 # a reasonable size? depends on the scale of the map and the
 # size of the environment, of course:
 MAPSIZE = 500 
-PIXEL_SIZE = 2
+PIXEL_SIZE = 1
 
 class Mapper(tk.Frame):    
 
