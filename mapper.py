@@ -23,18 +23,19 @@ from helpers import *
 # a reasonable size? depends on the scale of the map and the
 # size of the environment, of course:
 MAPSIZE = 500 
+PIXEL_SIZE = 2
 
 class Mapper(tk.Frame):    
 
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         self.master.title("I'm the map!")
-        self.master.minsize(width=MAPSIZE,height=MAPSIZE)
+        self.master.minsize(width=MAPSIZE*PIXEL_SIZE,height=MAPSIZE*PIXEL_SIZE)
 
         # makes a grey-scale image filled with 50% grey pixels
         # you can change the image type if you want color, check
         # the PIL (actually, Pillow) documentation
-        self.themap = Image.new("L",(MAPSIZE,MAPSIZE),128)
+        self.themap = Image.new("L",(MAPSIZE*PIXEL_SIZE,MAPSIZE*PIXEL_SIZE),128)
         self.mapimage = ImageTk.PhotoImage(self.themap)
 
         # this gives us directly memory access to the image pixels:
@@ -43,9 +44,10 @@ class Mapper(tk.Frame):
         #self.oddsvals = [[1.0 for _ in range(MAPSIZE)] for _ in range(MAPSIZE)]
         self.oddsvals = np.ones((MAPSIZE, MAPSIZE))
 
-        self.canvas = tk.Canvas(self,width=MAPSIZE, height=MAPSIZE)
+        self.canvas = tk.Canvas(self,width=MAPSIZE*PIXEL_SIZE, height=MAPSIZE*PIXEL_SIZE)
 
-        self.map_on_canvas = self.canvas.create_image(MAPSIZE/2, MAPSIZE/2, image = self.mapimage)
+        self.map_on_canvas = self.canvas.create_image(MAPSIZE*PIXEL_SIZE/2, 
+                MAPSIZE*PIXEL_SIZE/2, image = self.mapimage)
         self.canvas.pack()
         self.pack()
 
@@ -78,7 +80,7 @@ class Mapper(tk.Frame):
 
     def update_image(self):
         self.mapimage = ImageTk.PhotoImage(self.themap)       
-        self.canvas.create_image(MAPSIZE/2, MAPSIZE/2, image = self.mapimage)
+        self.canvas.create_image(MAPSIZe*PIXEL_SIZE/2, MAPSIZE*PIXEL_SIZE/2, image = self.mapimage)
 
     def odds_to_pixel_value(self, value):
         # This seems backwards for some reason rn
@@ -99,7 +101,9 @@ class Mapper(tk.Frame):
         self.map_update()
 
     def laser_update(self,lmsg):
+        print("Before", lmsg.ranges)
         replace_nans(lmsg)
+        print("After", lmsg.ranges)
         self.laser_q.append(lmsg)
 
     # here I am putting the map update in the laser callback
@@ -199,9 +203,10 @@ class Mapper(tk.Frame):
             ######
             # Actually updating the map
             ######
-            for x in range(0, MAPSIZE):
-                for y in range(0, MAPSIZE):
-                    val = self.odds_to_pixel_value(self.oddsvals[x,y])
+            dilated = dilate_map(self.oddsvals, PIXEL_SIZE)
+            for x in range(0, MAPSIZE*PIXEL_SIZE):
+                for y in range(0, MAPSIZE*PIXEL_SIZE):
+                    val = self.odds_to_pixel_value(dilated[x,y])
                     self.mappix[x,y] = self.odds_to_pixel_value(self.oddsvals[x,y])
 
 
