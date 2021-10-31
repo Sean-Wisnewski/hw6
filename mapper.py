@@ -112,6 +112,8 @@ class Mapper(tk.Frame):
         robot_pt = Point(odom)
         robot_map_pt = rectify_pos_to_map_cell(robot_pt)
         for idx, dist in enumerate(scan.ranges):
+            if dist is None:
+                continue
             alpha = compute_alpha_from_idx(scan, idx)
             # TODO take math.inf into account probably
             # TODO probably take it into account here, maybe just throw math.inf measures away?
