@@ -100,7 +100,7 @@ def replace_nans(lmsg):
     lmsg.ranges = list(map(replace_nan, lmsg.ranges))
 
 def replace_nan(val):
-    math.inf if math.isnan(val) else val
+    return math.inf if math.isnan(val) else val
 
 def compute_interior_angle(pt0, pt1, pt2):
     """
