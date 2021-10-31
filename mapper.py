@@ -203,7 +203,7 @@ class Mapper(tk.Frame):
             ######
             # Actually updating the map
             ######
-            dilated = dilate_map(self.oddsvals, PIXEL_SIZE)
+            dilated = self.oddsvals
             for x in range(0, MAPSIZE*PIXEL_SIZE):
                 for y in range(0, MAPSIZE*PIXEL_SIZE):
                     val = self.odds_to_pixel_value(dilated[x,y])
