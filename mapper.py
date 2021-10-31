@@ -99,7 +99,7 @@ class Mapper(tk.Frame):
         self.map_update()
 
     def laser_update(self,lmsg):
-        replace_nans(lsmg)
+        replace_nans(lmsg)
         self.laser_q.append(lmsg)
 
     # here I am putting the map update in the laser callback
