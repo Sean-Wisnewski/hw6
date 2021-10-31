@@ -94,7 +94,7 @@ def plotLine(pt0, pt1, num_cells_beyond=5):
 # Misc helpers
 ##################
 def dilate_map(numpy_map, pixel_size = 2):
-    return numpy.repeat(numpy.repeat(numpy_map, pixel_size, axis = 0), pixel_size, axis=1)
+    return np.repeat(np.repeat(numpy_map, pixel_size, axis = 0), pixel_size, axis=1)
 
 def l2_dist(pt0, pt1):
     return math.sqrt((pt1.x - pt0.x)**2 + (pt1.y - pt0.y)**2)
