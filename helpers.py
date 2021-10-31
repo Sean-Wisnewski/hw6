@@ -96,6 +96,12 @@ def plotLine(pt0, pt1, num_cells_beyond=5):
 def l2_dist(pt0, pt1):
     return math.sqrt((pt1.x - pt0.x)**2 + (pt1.y - pt0.y)**2)
 
+def replace_nans(lmsg):
+    lmsg.ranges = list(map(replace_nan, lmsg.ranges))
+
+def replace_nan(val):
+    math.inf if math.isnan(val) else val
+
 def compute_interior_angle(pt0, pt1, pt2):
     """
     Computes the interior angle of a vertex given 3 points.
@@ -115,9 +121,10 @@ def compute_interior_angle(pt0, pt1, pt2):
 def compute_obstacle_point(robot_pt, d, theta, alpha):
     """
     Computed in real world, not rectified points - points should still be in the real world
-    coordinate system at this point, not the map world
+    coordinate system at thisn point, not the map world
     """
     # check for math.inf here, change it to be more reasonable
+    # TODO swap to use NaN?
     if d == math.inf:
         d = 5 
         print(f"changing a math.inf to {d}")

@@ -99,6 +99,7 @@ class Mapper(tk.Frame):
         self.map_update()
 
     def laser_update(self,lmsg):
+        replace_nans(lsmg)
         self.laser_q.append(lmsg)
 
     # here I am putting the map update in the laser callback
@@ -279,9 +280,9 @@ def main():
             else:
                 m.use_laser = True
                 m.use_sonar = True
-    rospy.Subscriber("/r1/kinect_laser/scan",LaserScan,m.laser_update)
-    rospy.Subscriber("/r1/sonar/",SonarArray,m.sonar_update)
-    rospy.Subscriber("/r1/odom",Odometry,m.odom_update)
+    rospy.Subscriber("/scan/",LaserScan,m.laser_update)
+    rospy.Subscriber("/sonar/",SonarArray,m.sonar_update)
+    rospy.Subscriber("/pose/",Odometry,m.odom_update)
     
     # the GUI gets the main thread, so all your work must be in callbacks.
     root.mainloop()
